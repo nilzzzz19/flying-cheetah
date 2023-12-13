@@ -22,14 +22,21 @@ public class WeatherService {
 		this.repository = repository;
 	}
 	
+	List<Weather> w=null;
+	
 	//select * from weather
 	public List<Weather> getAllWeatherFromDB(){	
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return repository.findAll();
+		/*
+		 * try { Thread.sleep(1000); } catch (InterruptedException e) {
+		 * e.printStackTrace(); }
+		 */
+		Thread.Builder vt = Thread.ofVirtual(); //creates a virtual thread factory
+	    
+		vt.start(()->{
+			 w =  repository.findAll();
+		});
+		
+		return w;
 	}
 	
 	//insert into weather() values()
